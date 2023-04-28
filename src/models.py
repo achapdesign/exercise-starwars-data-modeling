@@ -8,6 +8,36 @@ from eralchemy2 import render_er
 
 Base = declarative_base()
 
+class User(Base):
+    __tablename__ = 'User'
+    id = Column(Integer, primary_key=True)
+    username = Column(String(20), != null)
+    favorites_id = Column(Integer, ForeignKey('favorites.id'))
+    favorites = relationship(Favorites)
+    
+class Favorites(Base):
+    __tablename__ = 'Favorites'
+    id = Column(Integer, primary_key=True)
+    film_id = Column(Integer, ForeignKey('film.id'))
+    film = relationship(Film)
+    people_id = Column(Integer, ForeignKey('people.id'))
+    people = relationship(People)
+    planet_id = Column(Integer, ForeignKey('planet.id'))
+    planet = relationship(Planet)
+    starship_id = Column(Integer, ForeignKey('starship.id'))
+    starship = relationship(Starship)
+
+class Film(Base):
+    __tablename__ = 'Film'
+    id = Column(Integer, primary_key=True)
+    people_id = Column(Integer, ForeignKey('people.id'))
+    people = relationship(People)
+    planet_id = Column(Integer, ForeignKey('planet.id'))
+    planet = relationship(Planet)
+    starship_id = Column(Integer, ForeignKey('starship.id'))
+    starship = relationship(Starship)
+
+
 class Character(Base):
     __tablename__ = 'Character'
     # Here we define columns for the table person
@@ -23,7 +53,7 @@ class People(Base):
     # Here we define columns for the table person
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    name = Column(String(20) != null)
+    name = Column(String(20), != null)
     height = Column(Integer, not null)
     mass = Column(Integer, not null)
     hair_color = Column(String(10) != null)
